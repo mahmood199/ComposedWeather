@@ -1,4 +1,4 @@
-package com.example.composedweather.data.location
+package com.example.composedweather.core.local
 
 import android.content.Context
 import com.google.android.gms.location.FusedLocationProviderClient

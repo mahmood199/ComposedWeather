@@ -1,4 +1,4 @@
-package com.example.composedweather.data.preference
+package com.example.composedweather.data.models.local
 
 data class UserPreferences(
     val latitude: Double,

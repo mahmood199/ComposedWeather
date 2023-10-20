@@ -1,4 +1,4 @@
-package com.example.composedweather.data.preference
+package com.example.composedweather.core.local
 
 import android.util.Log
 import androidx.datastore.core.DataStore
@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.example.composedweather.data.models.local.UserPreferences
 import com.example.composedweather.data.models.request.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

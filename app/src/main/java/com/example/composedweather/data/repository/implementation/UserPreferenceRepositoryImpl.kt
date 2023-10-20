@@ -1,7 +1,7 @@
 package com.example.composedweather.data.repository.implementation
 
-import com.example.composedweather.data.preference.PreferencesDataStore
-import com.example.composedweather.data.preference.UserPreferences
+import com.example.composedweather.core.local.PreferencesDataStore
+import com.example.composedweather.data.models.local.UserPreferences
 import com.example.composedweather.data.repository.contract.UserPreferenceRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

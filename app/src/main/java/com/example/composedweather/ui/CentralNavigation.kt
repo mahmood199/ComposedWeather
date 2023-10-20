@@ -1,4 +1,4 @@
-package com.example.composedweather
+package com.example.composedweather.ui
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.runtime.Composable

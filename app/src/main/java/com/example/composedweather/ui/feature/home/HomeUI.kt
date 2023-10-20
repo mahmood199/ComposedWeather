@@ -102,7 +102,7 @@ fun HomeUI(
 
     val todayWeather by viewModel.currentDayWeather.collectAsState()
 
-    var isShowing by remember {
+    var showNetworkConnectivity by remember {
         mutableStateOf(false)
     }
 
@@ -116,9 +116,9 @@ fun HomeUI(
     )
 
     SaveableLaunchedEffect(state.isConnected) {
-        isShowing = true
+        showNetworkConnectivity = true
         delay(1000)
-        isShowing = false
+        showNetworkConnectivity = false
     }
 
     Scaffold(
@@ -149,9 +149,9 @@ fun HomeUI(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         bottomBar = {
             AnimatedVisibility(
-                visible = isShowing,
-                enter = fadeIn() + slideInVertically { 5000 },
-                exit = fadeOut() + slideOutVertically { -5000 },
+                visible = showNetworkConnectivity,
+                enter = fadeIn() + slideInVertically(),
+                exit = fadeOut() + slideOutVertically(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color)

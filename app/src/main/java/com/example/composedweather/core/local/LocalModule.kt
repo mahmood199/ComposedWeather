@@ -1,4 +1,4 @@
-package com.example.composedweather.data.local
+package com.example.composedweather.core.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.example.composedweather.data.preference.PreferencesDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

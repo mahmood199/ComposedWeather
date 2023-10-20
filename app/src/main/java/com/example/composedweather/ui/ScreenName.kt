@@ -1,4 +1,4 @@
-package com.example.composedweather
+package com.example.composedweather.ui
 
 
 object ScreenName {

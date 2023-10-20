@@ -31,6 +31,15 @@ android {
         buildConfigField("String", "NOMINATIM_BASE_URL", "\"https://nominatim.openstreetmap.org/\"")
     }
 
+    signingConfigs {
+        register("release") {
+            storePassword = "StorePassword"
+            keyAlias = "KeyAlias"
+            keyPassword = "KeyPassword"
+        }
+    }
+
+
     buildTypes {
         release {
             isMinifyEnabled = false

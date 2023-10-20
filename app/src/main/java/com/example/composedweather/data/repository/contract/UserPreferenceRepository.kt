@@ -1,6 +1,6 @@
 package com.example.composedweather.data.repository.contract
 
-import com.example.composedweather.data.preference.UserPreferences
+import com.example.composedweather.data.models.local.UserPreferences
 import kotlinx.coroutines.flow.Flow
 
 interface UserPreferenceRepository {
