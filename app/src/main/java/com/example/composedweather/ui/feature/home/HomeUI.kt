@@ -253,10 +253,27 @@ fun HomeUiContent(
             .padding(horizontal = 12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+
+        val latitude = remember(state.weatherDataRequest.latitude) {
+            DecimalFormat("#.##").format(state.weatherDataRequest.latitude)
+        }
+
+        val longitude = remember(state.weatherDataRequest.longitude) {
+            DecimalFormat("#.##").format(state.weatherDataRequest.longitude)
+        }
+
+        val textToShow = remember(latitude, longitude) {
+            if ((latitude.toDoubleOrNull() ?: 0.0) == 0.0 &&
+                (longitude.toDoubleOrNull() ?: 0.0) == 0.0
+            )
+                "Please grant location access from settings or search for your location from below"
+            else "Showing forecasts for Lat:- $latitude, Lon:- $longitude"
+        }
+
         when (permissionState.status) {
             is PermissionStatus.Denied -> {
                 Text(
-                    text = "Please allow location access from settings",
+                    text = textToShow,
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(BorderStroke(2.dp, MaterialTheme.colorScheme.onPrimary))
@@ -270,22 +287,6 @@ fun HomeUiContent(
                     if (state.weatherDataRequest.isLocationDetected) {
                         onPermissionGranted()
                     }
-                }
-
-                val latitude = remember(state.weatherDataRequest.latitude) {
-                    DecimalFormat("#.##").format(state.weatherDataRequest.latitude)
-                }
-
-                val longitude = remember(state.weatherDataRequest.longitude) {
-                    DecimalFormat("#.##").format(state.weatherDataRequest.longitude)
-                }
-
-                val textToShow = remember(latitude, longitude) {
-                    if ((latitude.toDoubleOrNull() ?: 0.0) == 0.0 &&
-                        (longitude.toDoubleOrNull() ?: 0.0) == 0.0
-                    )
-                        "Please grant location access from settings or search for your location from below"
-                    else "Showing forecasts for Lat:- $latitude, Lon:- $longitude"
                 }
 
                 Box(
@@ -313,25 +314,18 @@ fun HomeUiContent(
             if (isLoading) {
                 ContentLoaderUI()
             } else {
-                when (permissionState.status) {
-                    is PermissionStatus.Denied -> {
-                        RequestPermissionUI()
-                    }
-
-                    PermissionStatus.Granted -> {
-                        WeatherContentUI(
-                            state = state,
-                            hourlyForecasts = hourlyForecasts,
-                            dailyForecasts = dailyForecasts,
-                            modifyContent = modifyContent,
-                            todayWeather = todayWeather
-                        )
-                    }
-                }
+                WeatherContentUI(
+                    state = state,
+                    hourlyForecasts = hourlyForecasts,
+                    dailyForecasts = dailyForecasts,
+                    modifyContent = modifyContent,
+                    todayWeather = todayWeather
+                )
             }
         }
     }
 }
+
 
 @Composable
 fun WeatherContentUI(
@@ -412,12 +406,14 @@ fun WeatherContentUI(
                     "Weekly Forecast Header"
                 }
             ) {
-                Text(
-                    text = "Weekly Forecast",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(6.dp)
-                )
+                AnimatedVisibility(visible = dailyForecasts.isNotEmpty()) {
+                    Text(
+                        text = "Weekly Forecast",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(6.dp)
+                    )
+                }
             }
             items(
                 count = dailyForecasts.size,
@@ -441,16 +437,20 @@ fun HourlyForecastRow(
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier.fillMaxWidth().animateContentSize(),
+        modifier = modifier
+            .fillMaxWidth()
+            .animateContentSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         item(key = "HourlyForeCast Start Item") {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text("Time")
-                Text("Temperature")
-                Text("Humidity")
+            AnimatedVisibility(hourlyForecasts.isNotEmpty()) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text("Time")
+                    Text("Temperature")
+                    Text("Humidity")
+                }
             }
         }
         items(

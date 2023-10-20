@@ -80,7 +80,11 @@ class HomeViewModel @Inject constructor(
                     ),
                 )
 
-                getInfo()
+                if (_state.value.weatherDataRequest.latitude != 0.0 &&
+                    _state.value.weatherDataRequest.longitude != 0.0
+                ) {
+                    getInfo()
+                }
             }
         }
     }
