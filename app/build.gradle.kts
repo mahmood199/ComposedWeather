@@ -21,9 +21,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        buildConfigField("String", "OPEN_METEO_BASE_URL", "\"https://api.open-meteo.com/v1/\"")
-        buildConfigField("String", "NOMINATIM_BASE_URL", "\"https://nominatim.openstreetmap.org/\"")
     }
 
     signingConfigs {
@@ -40,7 +37,6 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
             )
         }
     }
@@ -92,15 +88,7 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.android)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.ktor.client.logging)
-    implementation(libs.ktor.gson)
-    implementation(libs.ktor.client.serialization)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.client.encoding)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

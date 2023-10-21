@@ -3,21 +3,17 @@ package com.example.composedweather.ui
 import androidx.compose.animation.fadeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.composedweather.ui.feature.search.DetailUI
 import com.example.composedweather.ui.feature.home.HomeUI
+import com.example.composedweather.ui.feature.search.DetailUI
 import com.example.composedweather.ui.feature.splash.SplashUI
 import com.example.composedweather.ui.theme.ComposedWeatherTheme
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 
 @Composable
 fun CentralNavigation(
-    fusedLocationProviderClient: FusedLocationProviderClient,
     backPress: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -47,7 +43,6 @@ fun CentralNavigation(
             }
         ) {
             HomeUI(
-                fusedLocationProviderClient = fusedLocationProviderClient,
                 onBackPressed = {
                     backPress()
                 },
@@ -77,11 +72,7 @@ fun CentralNavigation(
 @Composable
 fun CentralNavigationPreview() {
     ComposedWeatherTheme {
-        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
-            LocalContext.current
-        )
         CentralNavigation(
-            fusedLocationProviderClient = fusedLocationProviderClient,
             backPress = {}
         )
     }

@@ -1,6 +1,6 @@
 package com.example.composedweather.ui.feature.home
 
-import com.example.composedweather.data.models.request.WeatherDataRequest
+import com.example.data.model.request.WeatherDataRequest
 
 data class HomeViewState(
     var isLoading: Boolean = false,

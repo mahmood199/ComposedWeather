@@ -20,7 +20,6 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
             )
         }
     }
@@ -41,13 +40,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.ui.test.junit4)
 
+    // To expose the object to data layer for DI
+    implementation(libs.ktor.gson)
     implementation(libs.ktor.client.core)
+
     implementation(libs.ktor.client.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.ktor.client.logging)
-    implementation(libs.ktor.gson)
     implementation(libs.ktor.client.serialization)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.client.content.negotiation)

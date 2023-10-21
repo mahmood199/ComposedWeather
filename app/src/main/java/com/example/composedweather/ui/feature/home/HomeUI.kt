@@ -64,22 +64,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.composedweather.data.models.request.Constants
-import com.example.composedweather.data.models.response.Current
-import com.example.composedweather.data.models.response.CurrentUnits
-import com.example.composedweather.data.models.response.DailyForecast
-import com.example.composedweather.data.models.response.HourlyForecast
 import com.example.composedweather.ui.common.ComposedWeatherAppBarUI
 import com.example.composedweather.ui.common.ContentLoaderUI
 import com.example.composedweather.ui.common.SaveableLaunchedEffect
 import com.example.composedweather.ui.theme.ComposedWeatherTheme
 import com.example.composedweather.util.formatToAMPM
 import com.example.composedweather.util.formatToDMMMY
+import com.example.data.model.request.Constants
+import com.example.data.model.response.Current
+import com.example.data.model.response.CurrentUnits
+import com.example.data.model.response.DailyForecast
+import com.example.data.model.response.HourlyForecast
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.delay
 import java.text.DecimalFormat
@@ -88,7 +87,6 @@ import java.text.DecimalFormat
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeUI(
-    fusedLocationProviderClient: FusedLocationProviderClient,
     onBackPressed: () -> Unit,
     navigateToSearch: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
@@ -96,6 +94,8 @@ fun HomeUI(
 
     val state by viewModel.state.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
+
+    val context = LocalContext.current
 
     val dailyForecasts = viewModel.dailyForecasts
     val hourlyForecasts = viewModel.hourlyForecasts
@@ -211,6 +211,9 @@ fun HomeUI(
                     viewModel.modifyState(state = it)
                 },
                 onPermissionGranted = {
+                    val fusedLocationProviderClient =
+                        LocationServices.getFusedLocationProviderClient(context)
+
                     fusedLocationProviderClient.lastLocation
                         .addOnSuccessListener { location: Location? ->
                             location?.run {
@@ -262,65 +265,58 @@ fun HomeUiContent(
             DecimalFormat("#.##").format(state.weatherDataRequest.longitude)
         }
 
-        val textToShow = remember(latitude, longitude) {
+        val textToShow = remember(latitude, longitude, permissionState) {
             if ((latitude.toDoubleOrNull() ?: 0.0) == 0.0 &&
                 (longitude.toDoubleOrNull() ?: 0.0) == 0.0
             )
-                "Please grant location access from settings or search for your location from below"
+                "Please grant location access from settings or search for your location"
             else "Showing forecasts for Lat:- $latitude, Lon:- $longitude"
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20))
+                .border(BorderStroke(4.dp, MaterialTheme.colorScheme.onPrimary))
+                .padding(16.dp)
+        ) {
+            Text(
+                text = textToShow,
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .basicMarquee(100)
+            )
         }
 
         when (permissionState.status) {
             is PermissionStatus.Denied -> {
-                Text(
-                    text = textToShow,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(BorderStroke(2.dp, MaterialTheme.colorScheme.onPrimary))
-                        .padding(16.dp)
-                )
+                RequestPermissionUI()
             }
 
             PermissionStatus.Granted -> {
-
                 SaveableLaunchedEffect(state.weatherDataRequest.isLocationDetected) {
                     if (state.weatherDataRequest.isLocationDetected) {
                         onPermissionGranted()
                     }
                 }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(20))
-                        .border(BorderStroke(4.dp, MaterialTheme.colorScheme.onPrimary))
-                        .padding(16.dp)
-                ) {
-                    Text(
-                        text = textToShow,
-                        maxLines = 1,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .basicMarquee(100)
-                    )
+                AnimatedContent(
+                    targetState = state.isLoading,
+                    label = "Forecast loading"
+                ) { isLoading ->
+                    if (isLoading) {
+                        ContentLoaderUI()
+                    } else {
+                        WeatherContentUI(
+                            state = state,
+                            hourlyForecasts = hourlyForecasts,
+                            dailyForecasts = dailyForecasts,
+                            modifyContent = modifyContent,
+                            todayWeather = todayWeather
+                        )
+                    }
                 }
-            }
-        }
-
-        AnimatedContent(
-            targetState = state.isLoading,
-            label = "Forecast loading"
-        ) { isLoading ->
-            if (isLoading) {
-                ContentLoaderUI()
-            } else {
-                WeatherContentUI(
-                    state = state,
-                    hourlyForecasts = hourlyForecasts,
-                    dailyForecasts = dailyForecasts,
-                    modifyContent = modifyContent,
-                    todayWeather = todayWeather
-                )
             }
         }
     }
@@ -725,11 +721,7 @@ fun RequestPermissionUI(
 @Composable
 fun HomeUIPreview() {
     ComposedWeatherTheme {
-        val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
-            LocalContext.current
-        )
         HomeUI(
-            fusedLocationProviderClient,
             onBackPressed = {},
             navigateToSearch = {}
         )

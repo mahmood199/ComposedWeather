@@ -13,7 +13,13 @@ android {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "OPEN_METEO_BASE_URL", "\"https://api.open-meteo.com/v1/\"")
+        buildConfigField("String", "NOMINATIM_BASE_URL", "\"https://nominatim.openstreetmap.org/\"")
+    }
+
+    buildFeatures{
+        buildConfig = true
     }
 
     buildTypes {
@@ -21,7 +27,6 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
             )
         }
     }
@@ -39,16 +44,20 @@ android {
 
 dependencies {
 
-    api(project(":core-local"))
-    api(project(":core-network"))
-
-    implementation(libs.ktor.gson)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt.android.gradle.plugin)
+    implementation(project(":core-local"))
+    implementation(project(":core-network"))
 
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(libs.ktor.gson)
+    implementation(libs.ktor.client.core)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.android.gradle.plugin)
+    implementation(libs.datastore.preferences)
+
 }

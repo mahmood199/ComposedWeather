@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.connectivity.NetworkConnectivityObserver
 import com.example.core_network.NetworkResult
-import com.example.composedweather.data.models.response.LocationResponseItem
-import com.example.composedweather.data.repository.contract.LocationRepository
-import com.example.composedweather.data.repository.contract.UserPreferenceRepository
+import com.example.data.model.response.LocationResponseItem
+import com.example.data.repositories.contract.LocationRepository
+import com.example.data.repositories.contract.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
