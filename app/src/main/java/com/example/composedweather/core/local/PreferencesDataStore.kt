@@ -1,6 +1,5 @@
 package com.example.composedweather.core.local
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -23,7 +22,7 @@ class PreferencesDataStore @Inject constructor(
     val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.e("PreferencesDataStore", exception.toString())
+                exception.printStackTrace()
                 emit(emptyPreferences())
             } else {
                 throw Exception()
@@ -34,7 +33,8 @@ class PreferencesDataStore @Inject constructor(
             val longitude = preferences[PreferencesKeys.LONGITUDE] ?: 0.0
             val temperatureUnit = preferences[PreferencesKeys.TEMPERATURE_UNIT] ?: Constants.CELSIUS
             val locationName = preferences[PreferencesKeys.LOCATION_NAME] ?: ""
-            val isLocationAutoDetected = preferences[PreferencesKeys.IS_LOCATION_AUTO_DETECTED] ?: true
+            val isLocationAutoDetected =
+                preferences[PreferencesKeys.IS_LOCATION_AUTO_DETECTED] ?: true
 
             UserPreferences(
                 latitude = latitude,
@@ -45,7 +45,12 @@ class PreferencesDataStore @Inject constructor(
             )
         }
 
-    suspend fun setUserLocation(latitude: Double, longitude: Double, userLocation: String, isLocationDetected: Boolean) {
+    suspend fun setUserLocation(
+        latitude: Double,
+        longitude: Double,
+        userLocation: String,
+        isLocationDetected: Boolean
+    ) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.LATITUDE] = latitude
             preferences[PreferencesKeys.LONGITUDE] = longitude
@@ -66,10 +71,6 @@ class PreferencesDataStore @Inject constructor(
         val TEMPERATURE_UNIT = stringPreferencesKey("temperature_unit")
         val LOCATION_NAME = stringPreferencesKey("location_name")
         val IS_LOCATION_AUTO_DETECTED = booleanPreferencesKey("is_location_auto_detected")
-    }
-
-    companion object {
-        const val USER_PREFERENCES_NAME = "user_preferences"
     }
 
 }

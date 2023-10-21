@@ -1,6 +1,6 @@
 package com.example.composedweather.data.repository.implementation
 
-import com.example.composedweather.core.remote.NetworkResult
+import com.example.core_network.NetworkResult
 import com.example.composedweather.data.models.response.LocationResponseItem
 import com.example.composedweather.data.remote.LocationRemoteDataSource
 import com.example.composedweather.data.repository.contract.LocationRepository

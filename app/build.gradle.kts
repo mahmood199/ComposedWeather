@@ -3,11 +3,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hilt.plugin)
-/*
-    id("kotlin-parcelize")
-    id("kotlin-android")
-    id("kotlinx-serialization")
-*/
     id("kotlin-kapt")
 }
 
@@ -74,6 +69,12 @@ android {
 }
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
+
+    implementation(project(":core-network"))
+    implementation(project(":core-local"))
+    implementation(project(":connectivity-android"))
+    implementation(project(":data"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -86,8 +87,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(platform(libs.compose.bom))
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
@@ -103,6 +104,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.hilt.android.gradle.plugin)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.navigation.compose)
 
@@ -117,9 +119,7 @@ dependencies {
     implementation(libs.datastore.preferences)
 
 
-    implementation(libs.hilt.android.gradle.plugin)
     implementation(libs.kotlin.serialization)
-    implementation(libs.brotli.dec)
 
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)

@@ -1,12 +1,11 @@
 package com.example.composedweather.util
 
 import android.os.Build
-import android.os.Build.VERSION
 import androidx.annotation.ChecksSdkIntAtLeast
 
 @ChecksSdkIntAtLeast(parameter = 0)
 fun isAtLeastVersion(version: Int): Boolean {
-    return VERSION.SDK_INT >= version
+    return version <= Build.VERSION.SDK_INT
 }
 
 inline val isAtLeastAndroid6

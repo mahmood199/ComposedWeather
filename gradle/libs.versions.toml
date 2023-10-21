@@ -22,8 +22,11 @@ hilt-version = "2.48"
 hilt-navigation-compose = "1.0.0"
 kotlin-serialization-version = "1.9.0"
 hilt-plugin = "2.48"
-brotli-dec-version = "0.1.2"
 navigation-compose = "2.7.4"
+appcompat = "1.6.1"
+material = "1.10.0"
+org-jetbrains-kotlin-jvm = "1.9.0"
+slf4jSimple = "2.0.9"
 
 
 
@@ -36,6 +39,7 @@ lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtim
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -69,15 +73,18 @@ paging-compose = { group = "androidx.paging", name = "paging-compose", version.r
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore-version" }
 hilt-android-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt-version" }
 kotlin-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin-serialization-version" }
-brotli-dec = { group = "org.brotli", name = "dec", version.ref = "brotli-dec-version" }
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permission" }
 
 
 landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "glide-version" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil-compose" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-plugin = {id = "com.google.dagger.hilt.android", version.ref = "hilt-plugin"}
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }

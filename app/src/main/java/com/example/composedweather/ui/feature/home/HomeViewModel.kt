@@ -3,8 +3,8 @@ package com.example.composedweather.ui.feature.home
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composedweather.connection.NetworkConnectivityObserver
-import com.example.composedweather.core.remote.NetworkResult
+import com.example.connectivity.NetworkConnectivityObserver
+import com.example.core_network.NetworkResult
 import com.example.composedweather.data.models.request.Constants
 import com.example.composedweather.data.models.response.Current
 import com.example.composedweather.data.models.response.CurrentUnits
