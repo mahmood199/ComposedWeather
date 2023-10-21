@@ -45,12 +45,11 @@ android {
 dependencies {
 
     implementation(project(":core-local"))
-    implementation(project(":core-network"))
+    api(project(":core-network"))
 
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 
     implementation(libs.ktor.gson)
     implementation(libs.ktor.client.core)

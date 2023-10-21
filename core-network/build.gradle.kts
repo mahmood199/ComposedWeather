@@ -39,7 +39,6 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 
     // To expose the object to data layer for DI
     implementation(libs.ktor.gson)

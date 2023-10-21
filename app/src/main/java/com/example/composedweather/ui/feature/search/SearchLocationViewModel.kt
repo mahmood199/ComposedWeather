@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.connectivity.NetworkConnectivityObserver
 import com.example.core_network.NetworkResult
 import com.example.data.model.response.LocationResponseItem
-import com.example.data.repositories.contract.LocationRepository
-import com.example.data.repositories.contract.UserPreferenceRepository
+import com.example.domain.location.LocationUseCase
+import com.example.domain.user.UserPreferencesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchLocationViewModel @Inject constructor(
     private val networkConnectivityObserver: NetworkConnectivityObserver,
-    private val locationRepository: LocationRepository,
-    private val userPreferenceRepository: UserPreferenceRepository
+    private val locationUseCase: LocationUseCase,
+    private val userPreferencesUseCase: UserPreferencesUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchLocationViewState())
@@ -41,7 +41,7 @@ class SearchLocationViewModel @Inject constructor(
 
     fun updateSearchQuery(it: String) {
         _query.value = it
-        if(it.isEmpty()) {
+        if (it.isEmpty()) {
             searchResults.clear()
         }
         _state.value = _state.value.copy(isInSearchMode = false)
@@ -50,7 +50,7 @@ class SearchLocationViewModel @Inject constructor(
     fun searchLocation() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.value = _state.value.copy(isLoading = true)
-            when (val result = locationRepository.searchByName(_query.value)) {
+            when (val result = locationUseCase.searchByName(_query.value)) {
                 is NetworkResult.Exception -> handleError(result.e)
                 is NetworkResult.RedirectError -> handleError(result.e)
                 is NetworkResult.ServerError -> handleError(result.e)
@@ -72,7 +72,7 @@ class SearchLocationViewModel @Inject constructor(
 
     fun setLocationCoordinates(locationResponseItem: LocationResponseItem) {
         viewModelScope.launch(Dispatchers.IO) {
-            userPreferenceRepository.setUserLocation(
+            userPreferencesUseCase.setUserLocation(
                 latitude = locationResponseItem.lat.toDoubleOrNull() ?: 0.0,
                 longitude = locationResponseItem.lon.toDoubleOrNull() ?: 0.0,
                 location = locationResponseItem.displayName,

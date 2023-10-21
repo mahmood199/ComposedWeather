@@ -71,6 +71,7 @@ dependencies {
     implementation(project(":core-local"))
     implementation(project(":connectivity-android"))
     implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -82,7 +83,6 @@ dependencies {
     implementation(libs.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ui.test.junit4)
     androidTestImplementation(platform(libs.compose.bom))
     debugImplementation(libs.ui.tooling)
