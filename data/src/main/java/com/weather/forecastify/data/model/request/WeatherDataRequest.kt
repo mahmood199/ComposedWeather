@@ -1,6 +1,9 @@
 package com.weather.forecastify.data.model.request
 
+import androidx.annotation.Keep
 
+
+@Keep
 data class WeatherDataRequest(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,

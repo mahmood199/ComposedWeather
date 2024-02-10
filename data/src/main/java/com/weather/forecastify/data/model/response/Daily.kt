@@ -1,7 +1,9 @@
 package com.weather.forecastify.data.model.response
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class Daily(
     @SerializedName("precipitation_sum") val precipitationSum: List<Double>,
     @SerializedName("precipitation_hours") val precipitationHours: List<Int>,

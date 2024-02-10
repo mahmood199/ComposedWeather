@@ -1,7 +1,9 @@
 package com.weather.forecastify.data.model.response
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class WeatherResponse(
     @SerializedName("latitude") val latitude: Double,
     @SerializedName("longitude") val longitude: Double,
@@ -10,7 +12,6 @@ data class WeatherResponse(
     @SerializedName("timezone") val timezone: String,
     @SerializedName("timezone_abbreviation") val timezoneAbbreviation: String,
     @SerializedName("elevation") val elevation: Int,
-
     @SerializedName("hourly") val hourly: Hourly,
     @SerializedName("hourly_units") val hourlyUnits: HourlyUnits,
     @SerializedName("current") val current: Current,

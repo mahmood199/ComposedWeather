@@ -1,5 +1,6 @@
 package com.weather.forecastify.data.remote
 
+import android.util.Log
 import com.google.gson.Gson
 import com.weather.forecastify.core_network.NetworkResult
 import com.weather.forecastify.core_network.ResponseProcessor
@@ -47,10 +48,14 @@ class WeatherRemoteDataSource @Inject constructor(
                 )
                 parameter(Constants.TIME_ZONE, "Asia/Singapore")
             }
+            Log.d("ParsingIssue", response.toString())
             val result = responseProcessor.getResultFromResponse<WeatherResponse>(gson, response)
+            Log.d("ParsingIssue", "Printed0")
             result
         } catch (e: Exception) {
+            Log.d("ParsingIssue", "Printed1")
             e.printStackTrace()
+            Log.d("ParsingIssue", "Printed2")
             if (e is IOException) {
                 NetworkResult.Exception(Throwable("Please your internet connection"))
             } else {

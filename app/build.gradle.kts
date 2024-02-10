@@ -25,19 +25,23 @@ android {
 
     signingConfigs {
         register("release") {
-            storePassword = "StorePassword"
-            keyAlias = "KeyAlias"
-            keyPassword = "KeyPassword"
+            storePassword = "Mahmood"
+            keyAlias = "key0"
+            keyPassword = "Mahmood"
+            storeFile = file("./forecastify_key_store.jks")
         }
     }
 
 
     buildTypes {
         getByName("release") {
+            isDebuggable = false
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

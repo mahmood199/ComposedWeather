@@ -1,7 +1,9 @@
 package com.weather.forecastify.data.model.response
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class Current(
     @SerializedName("apparent_temperature") val apparent_temperature: Double,
     @SerializedName("interval") val interval: Int,
