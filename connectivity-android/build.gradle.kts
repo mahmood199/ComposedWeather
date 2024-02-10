@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.connectivity"
+    namespace = "com.weather.forecastify.connectivity_android"
     compileSdk = 34
 
     defaultConfig {

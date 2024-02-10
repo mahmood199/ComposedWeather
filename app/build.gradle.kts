@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.composedweather"
+    namespace = "com.weather.forecastify"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.composedweather"
+        applicationId = "com.weather.forecastify"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
