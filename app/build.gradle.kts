@@ -67,11 +67,11 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
 
-    implementation(project(":core-network"))
-    implementation(project(":core-local"))
-    implementation(project(":connectivity-android"))
-    implementation(project(":data"))
-    implementation(project(":domain"))
+    implementation(projects.coreNetwork)
+    implementation(projects.coreNetwork)
+    implementation(projects.connectivityAndroid)
+    implementation(projects.data)
+    implementation(projects.domain)
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)

@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.weather.forecastify.app.ui.feature.home.HomeUI
 import com.weather.forecastify.app.ui.feature.search.DetailUI
 import com.weather.forecastify.app.ui.feature.splash.SplashUI
-import com.weather.forecastify.app.ui.theme.ComposedWeatherTheme
+import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 
 @Composable
 fun CentralNavigation(
@@ -71,7 +71,7 @@ fun CentralNavigation(
 @Preview
 @Composable
 fun CentralNavigationPreview() {
-    ComposedWeatherTheme {
+    ForecastifyTheme {
         CentralNavigation(
             backPress = {}
         )

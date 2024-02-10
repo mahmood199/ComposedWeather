@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import com.weather.forecastify.app.ui.theme.ComposedWeatherTheme
+import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            ComposedWeatherTheme {
+            ForecastifyTheme {
                 CentralNavigation(
                     backPress = {
                         finish()
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    ComposedWeatherTheme {
+    ForecastifyTheme {
         CentralNavigation(
             {}
         )

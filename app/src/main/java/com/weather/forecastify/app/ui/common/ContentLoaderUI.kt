@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.weather.forecastify.app.ui.theme.ComposedWeatherTheme
+import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 
 @Composable
 fun ContentLoaderUI(
@@ -24,7 +24,7 @@ fun ContentLoaderUI(
 @Preview
 @Composable
 fun PreviewContentLoaderUI() {
-    ComposedWeatherTheme {
+    ForecastifyTheme {
         ContentLoaderUI()
     }
 }

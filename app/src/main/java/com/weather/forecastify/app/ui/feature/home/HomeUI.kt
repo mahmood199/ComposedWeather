@@ -64,10 +64,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.weather.forecastify.app.ui.common.ComposedWeatherAppBarUI
+import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
 import com.weather.forecastify.app.ui.common.ContentLoaderUI
 import com.weather.forecastify.app.ui.common.SaveableLaunchedEffect
-import com.weather.forecastify.app.ui.theme.ComposedWeatherTheme
+import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 import com.weather.forecastify.app.util.formatToAMPM
 import com.weather.forecastify.app.util.formatToDMMMY
 import com.weather.forecastify.data.model.request.Constants
@@ -123,7 +123,7 @@ fun HomeUI(
 
     Scaffold(
         topBar = {
-            ComposedWeatherAppBarUI(
+            ForecastfiyAppBarUI(
                 title = "Home",
                 onBackPressed = onBackPressed,
             )
@@ -720,7 +720,7 @@ fun RequestPermissionUI(
 @Preview
 @Composable
 fun HomeUIPreview() {
-    ComposedWeatherTheme {
+    ForecastifyTheme {
         HomeUI(
             onBackPressed = {},
             navigateToSearch = {}

@@ -55,9 +55,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.weather.forecastify.data.model.response.LocationResponseItem
-import com.weather.forecastify.app.ui.common.ComposedWeatherAppBarUI
+import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
 import com.weather.forecastify.app.ui.common.ContentLoaderUI
-import com.weather.forecastify.app.ui.theme.ComposedWeatherTheme
+import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 import java.text.DecimalFormat
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -101,7 +101,7 @@ fun DetailUI(
             },
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            ComposedWeatherAppBarUI(
+            ForecastfiyAppBarUI(
                 title = "Search Location",
                 backButtonIcon = Icons.Rounded.ArrowBack,
                 onBackPressed = onBackPressed
@@ -323,7 +323,7 @@ fun LocationItem(
 @Preview
 @Composable
 fun HomeUIPreview() {
-    ComposedWeatherTheme {
+    ForecastifyTheme {
         DetailUI(onBackPressed = {})
     }
 }

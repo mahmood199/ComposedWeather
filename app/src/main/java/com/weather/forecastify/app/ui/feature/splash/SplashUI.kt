@@ -25,7 +25,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import coil.size.Size
 import com.weather.forecastify.R
-import com.weather.forecastify.app.ui.theme.ComposedWeatherTheme
+import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 import kotlinx.coroutines.delay
 
 private const val SplashWaitTime: Long = 5000
@@ -85,7 +85,7 @@ fun SplashUI(
 @Preview
 @Composable
 fun SplashUIPreview() {
-    ComposedWeatherTheme {
+    ForecastifyTheme {
         SplashUI(
             navigateToHome = {
             }

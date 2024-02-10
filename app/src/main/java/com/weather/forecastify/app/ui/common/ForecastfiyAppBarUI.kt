@@ -14,11 +14,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.weather.forecastify.app.ui.theme.ComposedWeatherTheme
+import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComposedWeatherAppBarUI(
+fun ForecastfiyAppBarUI(
     title: String,
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier,
@@ -48,9 +48,9 @@ fun ComposedWeatherAppBarUI(
 
 @Preview
 @Composable
-fun ComposedWeatherAppBarUIPreview() {
-    ComposedWeatherTheme {
-        ComposedWeatherAppBarUI(
+fun ForecastifyAppBarUIPreview() {
+    ForecastifyTheme {
+        ForecastfiyAppBarUI(
             title = "Home",
             backButtonIcon = null,
             onBackPressed = {}
