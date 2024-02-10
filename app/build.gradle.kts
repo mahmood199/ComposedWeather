@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.gms.google.services)
+    alias(libs.plugins.crashlytics)
     id("kotlin-kapt")
 }
 
@@ -116,5 +118,11 @@ dependencies {
 
     implementation(libs.play.services.location)
     implementation(libs.accompanist.permissions)
+
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+
 
 }
