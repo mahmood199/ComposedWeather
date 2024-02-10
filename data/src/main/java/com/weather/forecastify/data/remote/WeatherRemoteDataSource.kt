@@ -1,9 +1,9 @@
 package com.weather.forecastify.data.remote
 
-import com.example.data.BuildConfig
 import com.google.gson.Gson
 import com.weather.forecastify.core_network.NetworkResult
 import com.weather.forecastify.core_network.ResponseProcessor
+import com.weather.forecastify.data.BuildConfig
 import com.weather.forecastify.data.model.request.Constants
 import com.weather.forecastify.data.model.request.WeatherDataRequest
 import com.weather.forecastify.data.model.response.WeatherResponse
