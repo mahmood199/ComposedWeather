@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.weather.forecastify.app.ui.feature.home.HomeUI
 import com.weather.forecastify.app.ui.feature.location.LocationUIContainer
+import com.weather.forecastify.app.ui.feature.recomposition.RecompositionUIContainer
 import com.weather.forecastify.app.ui.feature.search.DetailUI
 import com.weather.forecastify.app.ui.feature.splash.SplashUI
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
@@ -22,7 +23,7 @@ fun CentralNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Splash.name,
+        startDestination = Screen.Recomposition.name,
         modifier = modifier
     ) {
         composable(route = Screen.Splash.name) {
@@ -71,6 +72,10 @@ fun CentralNavigation(
 
         composable(route = Screen.Map.name) {
             LocationUIContainer()
+        }
+
+        composable(route = Screen.Recomposition.name) {
+            RecompositionUIContainer()
         }
 
 
