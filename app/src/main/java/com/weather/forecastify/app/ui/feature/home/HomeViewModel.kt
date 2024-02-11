@@ -3,6 +3,7 @@ package com.weather.forecastify.app.ui.feature.home
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.weather.forecastify.app.ui.state.StateManager
 import com.weather.forecastify.connectivity_android.NetworkConnectivityObserver
 import com.weather.forecastify.data.model.request.Constants
 import com.weather.forecastify.data.model.response.Current
@@ -30,10 +31,10 @@ class HomeViewModel @Inject constructor(
     private val networkConnectivityObserver: NetworkConnectivityObserver,
     private val weatherInfoUseCase: WeatherInfoUseCase,
     private val userPreferencesUseCase: UserPreferencesUseCase
-) : ViewModel() {
+) : ViewModel(), StateManager<HomeViewState> {
 
-    private val _state = MutableStateFlow(HomeViewState())
-    val state = _state.asStateFlow()
+    override val _state = MutableStateFlow(HomeViewState.defaultState())
+    override val state = _state.asStateFlow()
 
     val dailyForecasts = mutableStateListOf<DailyForecast>()
     val hourlyForecasts = mutableStateListOf<HourlyForecast>()
@@ -46,7 +47,9 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             networkConnectivityObserver.networkState.collectLatest {
-                _state.value = _state.value.copy(isConnected = it)
+                updateState {
+                    copy(isConnected = it)
+                }
             }
         }
 
@@ -54,31 +57,36 @@ class HomeViewModel @Inject constructor(
             userPreferencesUseCase.getUserPreferences().distinctUntilChanged().collectLatest {
                 val request = _state.value.weatherDataRequest
 
-                _state.value = _state.value.copy(
-                    weatherDataRequest = request.copy(
-                        latitude = it.latitude,
-                        longitude = it.longitude,
-                        temperatureUnit = it.temperatureUnit,
-                        isLocationDetected = it.isLocationDetected
+                updateState {
+                    copy(
+                        weatherDataRequest = request.copy(
+                            latitude = it.latitude,
+                            longitude = it.longitude,
+                            temperatureUnit = it.temperatureUnit,
+                            isLocationDetected = it.isLocationDetected
+                        )
                     )
-                )
+                }
 
-                _state.value = _state.value.copy(
-                    weatherDataRequest = _state.value.weatherDataRequest.copy(
-                        params = listOf(
-                            Constants.APPARENT_TEMPERATURE,
-                            Constants.IS_DAY,
-                            Constants.PRECIPITATION,
-                            Constants.RAIN,
-                            Constants.RELATIVE_HUMIDITY_2M,
-                            Constants.SHOWERS,
-                            Constants.TEMPERATURE_2M,
-                            Constants.DEW_POINT_2M,
-                            Constants.WIND_SPEED_10M,
-                            Constants.WIND_DIRECTION_10M,
-                        ), isHourlyDataRequested = true
-                    ),
-                )
+                updateState {
+                    copy(
+                        weatherDataRequest = _state.value.weatherDataRequest.copy(
+                            params = listOf(
+                                Constants.APPARENT_TEMPERATURE,
+                                Constants.IS_DAY,
+                                Constants.PRECIPITATION,
+                                Constants.RAIN,
+                                Constants.RELATIVE_HUMIDITY_2M,
+                                Constants.SHOWERS,
+                                Constants.TEMPERATURE_2M,
+                                Constants.DEW_POINT_2M,
+                                Constants.WIND_SPEED_10M,
+                                Constants.WIND_DIRECTION_10M,
+                            ), isHourlyDataRequested = true
+                        ),
+                    )
+                }
+
 
                 if (_state.value.weatherDataRequest.latitude != 0.0 &&
                     _state.value.weatherDataRequest.longitude != 0.0
@@ -91,7 +99,9 @@ class HomeViewModel @Inject constructor(
 
     private fun getInfo() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.value = _state.value.copy(isLoading = true)
+            updateState {
+                copy(isLoading = true)
+            }
             when (val result = weatherInfoUseCase.getInfo(state.value.weatherDataRequest)) {
                 is NetworkResult.Exception -> {
                     handleError(result.e)
@@ -110,11 +120,22 @@ class HomeViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Success -> {
-                    getDayWiseForecast(result.data.daily, result.data.dailyUnits)
-                    getWeatherForToday(result.data.current, result.data.currentUnits)
-                    getHourlyForecasts(result.data.hourly, result.data.hourlyUnits)
+                    getDayWiseForecast(
+                        daily = result.data.daily,
+                        dailyUnits = result.data.dailyUnits
+                    )
+                    getWeatherForToday(
+                        current = result.data.current,
+                        currentUnits = result.data.currentUnits
+                    )
+                    getHourlyForecasts(
+                        hourly = result.data.hourly,
+                        hourlyUnits = result.data.hourlyUnits
+                    )
 
-                    _state.value = _state.value.copy(isLoading = false)
+                    updateState {
+                        copy(isLoading = false)
+                    }
                 }
             }
         }
@@ -157,9 +178,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun handleError(e: Throwable) {
-        _state.value = _state.value.copy(error = e.message)
-        _state.value = _state.value.copy(isLoading = false)
+    private suspend fun handleError(e: Throwable) {
+        updateState {
+            copy(
+                error = e.message,
+                isLoading = false
+            )
+        }
     }
 
     fun modifyState(state: HomeViewState) {
@@ -180,7 +205,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun handleLocationError() {
-        _state.value = _state.value.copy(error = "Unable to fetch location")
+        viewModelScope.launch {
+            updateState {
+                copy(error = "Unable to fetch location")
+            }
+        }
     }
 
 
