@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,8 +65,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
+import co.yml.charts.axis.AxisData
+import co.yml.charts.common.model.Point
+import co.yml.charts.ui.linechart.LineChart
+import co.yml.charts.ui.linechart.model.GridLines
+import co.yml.charts.ui.linechart.model.IntersectionPoint
+import co.yml.charts.ui.linechart.model.Line
+import co.yml.charts.ui.linechart.model.LineChartData
+import co.yml.charts.ui.linechart.model.LinePlotData
+import co.yml.charts.ui.linechart.model.LineStyle
+import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
+import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
+import co.yml.charts.ui.linechart.model.ShadowUnderLine
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.android.gms.location.LocationServices
 import com.weather.forecastify.app.ui.common.ContentLoaderUI
+import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
 import com.weather.forecastify.app.ui.common.SaveableLaunchedEffect
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 import com.weather.forecastify.app.util.formatToAMPM
@@ -75,11 +93,6 @@ import com.weather.forecastify.data.model.response.Current
 import com.weather.forecastify.data.model.response.CurrentUnits
 import com.weather.forecastify.data.model.response.DailyForecast
 import com.weather.forecastify.data.model.response.HourlyForecast
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
-import com.google.accompanist.permissions.PermissionStatus
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.delay
 import java.text.DecimalFormat
 
@@ -449,6 +462,23 @@ fun HourlyForecastRow(
                 }
             }
         }
+
+        item("hourly_data_chart") {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillParentMaxWidth()
+            ) {
+                if (hourlyForecasts.isNotEmpty()) {
+                    LineChart(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(ratio = 1.5f),
+                        lineChartData = getHourlyChartData(hourlyForecasts)
+                    )
+                }
+            }
+        }
+
         items(
             count = hourlyForecasts.size,
             key = { index ->
@@ -464,6 +494,54 @@ fun HourlyForecastRow(
             )
         }
     }
+}
+
+fun getHourlyChartData(
+    hourlyForecasts: SnapshotStateList<HourlyForecast>
+): LineChartData {
+
+    val pointsData: List<Point> = hourlyForecasts.mapIndexed { index, hourlyForecast ->
+        Point((index + 1).toFloat(), hourlyForecast.temperature.toFloat())
+    }
+
+    val steps = hourlyForecasts.size - 1
+
+    val xAxisData = AxisData.Builder()
+        .axisStepSize(size = 100.dp)
+        .backgroundColor(color = Color.Blue)
+        .steps(count = steps)
+        .labelData { it ->
+            val item = hourlyForecasts[it]
+            item.time.formatToAMPM()
+        }
+        .labelAndAxisLinePadding(padding = 15.dp)
+        .build()
+
+    val yAxisData = AxisData.Builder()
+        .steps(count = steps)
+        .backgroundColor(color = Color.Red)
+        .labelAndAxisLinePadding(padding = 20.dp)
+        .build()
+
+    val lineChartData = LineChartData(
+        linePlotData = LinePlotData(
+            lines = listOf(
+                Line(
+                    dataPoints = pointsData,
+                    lineStyle = LineStyle(),
+                    intersectionPoint = IntersectionPoint(),
+                    selectionHighlightPoint = SelectionHighlightPoint(),
+                    shadowUnderLine = ShadowUnderLine(),
+                    selectionHighlightPopUp = SelectionHighlightPopUp()
+                )
+            ),
+        ),
+        xAxisData = xAxisData,
+        yAxisData = yAxisData,
+        gridLines = GridLines(),
+        backgroundColor = Color.White
+    )
+    return lineChartData
 }
 
 @Composable

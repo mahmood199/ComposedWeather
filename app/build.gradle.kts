@@ -1,3 +1,10 @@
+import com.android.ide.common.resources.fileNameToResourceName
+import org.jetbrains.kotlin.backend.common.lower.Closure
+import org.jetbrains.kotlin.tooling.core.closure
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
@@ -68,6 +75,39 @@ android {
     kapt {
         correctErrorTypes = true
     }
+
+    applicationVariants.forEach { variant ->
+        variant.outputs.forEach { output ->
+            val SEP = "_"
+            val date = Date()
+            val dateFormat = SimpleDateFormat("dd_MM_yy_hh_mm")
+            val formattedDate = dateFormat.format(date)
+            var gitBranch = getGitBranch()
+            gitBranch = gitBranch.take(gitBranch.length - 1)
+            val apkName = variant.name + SEP + output.versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
+            //    output.outputFileName = apkName
+            //fileNameToResourceName(apkName)
+        }
+    }
+
+}
+
+fun getGitBranch(): String {
+    var gitBranch = "--"
+
+    try {
+        val stdout = ByteArrayOutputStream()
+        exec {
+            commandLine("git", "rev-parse", "--abbrev-ref", "HEAD")
+            standardOutput = stdout
+        }
+
+        gitBranch = stdout.toString()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        gitBranch = "--"
+    }
+    return gitBranch.replace("/", "-")
 }
 
 dependencies {
