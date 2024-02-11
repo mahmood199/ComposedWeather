@@ -1,6 +1,7 @@
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import org.apache.tools.ant.helper.DefaultExecutor
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -97,7 +98,9 @@ android {
                 val formattedDate = dateFormat.format(date)
                 var gitBranch = getGitBranch()
                 gitBranch = gitBranch.take(gitBranch.length - 1)
-                val apkName = variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
+                var apkName = variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
+                val regex = Regex("[^A-Za-z0-9_-]")
+                apkName.replace(regex, "")
                 output.outputFileName = apkName
             }
     }
@@ -141,6 +144,7 @@ class ApplicationVariantAction : Action<ApplicationVariant> {
 
 fun getGitBranch(): String {
     var gitBranch = "--"
+    var gitCommitId = "--"
 
     try {
         val stdout = ByteArrayOutputStream()
@@ -149,12 +153,22 @@ fun getGitBranch(): String {
             standardOutput = stdout
         }
 
-        gitBranch = stdout.toString()
+        gitBranch = "$stdout"
     } catch (e: Exception) {
         e.printStackTrace()
         gitBranch = "--"
+        gitCommitId = "--"
     }
     return gitBranch.replace("/", "-")
+}
+
+fun getGitHash(): ByteArrayOutputStream {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine("git", "rev-parse", "--short", "HEAD")
+        standardOutput = stdout
+    }
+    return stdout
 }
 
 dependencies {
@@ -213,6 +227,6 @@ dependencies {
 
 
     implementation(libs.ycharts)
-
+    implementation(libs.kotlinx.collections.immutable)
 
 }

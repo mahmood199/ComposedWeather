@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -16,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.toPersistentList
+import okhttp3.internal.toImmutableList
 
 @Composable
 fun RecompositionUIContainer(
@@ -37,7 +39,7 @@ fun RecompositionUIContainer(
         ContactList(
             contactListState = ContactListState(
                 names = remember {
-                    listOf("name1", "name2", "name3", "name4")
+                    mutableListOf("name1", "name2", "name3", "name4").toPersistentList()
                 },
             )
         )
@@ -57,7 +59,7 @@ fun ContactList(
 
 @Stable
 data class ContactListState(
-    val names: List<String>,
+    val names: PersistentList<String>,
     val isLoading: Boolean = false,
 )
 

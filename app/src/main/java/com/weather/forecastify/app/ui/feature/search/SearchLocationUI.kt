@@ -59,6 +59,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.weather.forecastify.app.ui.common.ContentLoaderUI
 import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
+import com.weather.forecastify.app.util.fastIsBlank2
 import com.weather.forecastify.data.model.response.LocationResponseItem
 import java.text.DecimalFormat
 
@@ -147,7 +148,7 @@ fun DetailUI(
                 placeholder = { Text("Enter street, city, district or state") },
                 maxLines = 1,
                 trailingIcon = {
-                    if (query.isNotBlank()) {
+                    if (!query.fastIsBlank2()) {
                         Icon(
                             modifier = Modifier
                                 .clip(CircleShape)

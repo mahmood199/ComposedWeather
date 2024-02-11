@@ -23,7 +23,7 @@ fun CentralNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Recomposition.name,
+        startDestination = Screen.Splash.name,
         modifier = modifier
     ) {
         composable(route = Screen.Splash.name) {
