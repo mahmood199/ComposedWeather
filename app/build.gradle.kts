@@ -103,6 +103,7 @@ android {
     }
 }
 
+/*
 class ApplicationVariantAction : Action<ApplicationVariant> {
     override fun execute(variant: ApplicationVariant) {
         val fileName = createFileName(variant)
@@ -136,6 +137,7 @@ class ApplicationVariantAction : Action<ApplicationVariant> {
         }
     }
 }
+*/
 
 fun getGitBranch(): String {
     var gitBranch = "--"
