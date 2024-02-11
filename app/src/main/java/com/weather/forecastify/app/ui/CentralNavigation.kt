@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.weather.forecastify.app.ui.feature.home.HomeUI
+import com.weather.forecastify.app.ui.feature.location.LocationUIContainer
 import com.weather.forecastify.app.ui.feature.search.DetailUI
 import com.weather.forecastify.app.ui.feature.splash.SplashUI
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
@@ -58,9 +59,18 @@ fun CentralNavigation(
                 fadeIn()
             }
         ) {
-            DetailUI(onBackPressed = {
-                navController.popBackStack()
-            })
+            DetailUI(
+                onBackPressed = {
+                    navController.popBackStack()
+                },
+                openMapClicked = {
+                    navController.navigate(Screen.Map.name)
+                }
+            )
+        }
+
+        composable(route = Screen.Map.name) {
+            LocationUIContainer()
         }
 
 

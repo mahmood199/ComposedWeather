@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -54,16 +56,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.weather.forecastify.data.model.response.LocationResponseItem
-import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
 import com.weather.forecastify.app.ui.common.ContentLoaderUI
+import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
+import com.weather.forecastify.data.model.response.LocationResponseItem
 import java.text.DecimalFormat
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DetailUI(
     onBackPressed: () -> Unit,
+    openMapClicked: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchLocationViewModel = hiltViewModel()
 ) {
@@ -112,8 +115,9 @@ fun DetailUI(
 
         LaunchedEffect(state.error) {
             if (state.error != null) {
-                val message = if (state.isConnected.not()) "Please connect to a stable network" else state.error
-                    ?: "Something went wrong.\n Please try again later."
+                val message =
+                    if (state.isConnected.not()) "Please connect to a stable network" else state.error
+                        ?: "Something went wrong.\n Please try again later."
                 Toast.makeText(
                     context,
                     message,
@@ -187,12 +191,15 @@ fun DetailUI(
                         query = query,
                         state = state,
                         searchResult = searchResult,
+                        openMapClicked = openMapClicked,
                         onItemSelected = { item, latitude, longitude ->
                             viewModel.setLocationCoordinates(
                                 locationResponseItem = item
                             )
                             Toast.makeText(
-                                context, "Location Selected: $latitude , $longitude", Toast.LENGTH_SHORT
+                                context,
+                                "Location Selected: $latitude , $longitude",
+                                Toast.LENGTH_SHORT
                             ).show()
                             onBackPressed()
                         }
@@ -208,6 +215,7 @@ fun SearchResultContentUI(
     query: String,
     state: SearchLocationViewState,
     searchResult: SnapshotStateList<LocationResponseItem>,
+    openMapClicked: () -> Unit,
     onItemSelected: (LocationResponseItem, String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -253,15 +261,31 @@ fun SearchResultContentUI(
             }
         }
     } else {
-        Box(
+        Column(
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
         ) {
             Text(
+                text = "Select from map instead",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.ExtraBold,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .clickable(onClick = openMapClicked)
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            )
+
+            Text(
                 text = "Search For a location",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
     }
@@ -324,6 +348,13 @@ fun LocationItem(
 @Composable
 fun HomeUIPreview() {
     ForecastifyTheme {
-        DetailUI(onBackPressed = {})
+        DetailUI(
+            onBackPressed = {
+                            
+            },
+            openMapClicked = {
+
+            }
+        )
     }
 }
