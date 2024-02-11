@@ -125,4 +125,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
 
 
+    implementation(libs.ycharts)
+
+
 }
