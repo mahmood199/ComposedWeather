@@ -1,9 +1,10 @@
-import com.android.ide.common.resources.fileNameToResourceName
-import org.jetbrains.kotlin.backend.common.lower.Closure
-import org.jetbrains.kotlin.tooling.core.closure
+import com.android.build.gradle.api.ApplicationVariant
+import com.android.build.gradle.api.BaseVariantOutput
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -15,6 +16,9 @@ plugins {
     id("kotlin-kapt")
 }
 
+val versionCode = 1
+val versionName = "1.0"
+
 android {
     namespace = "com.weather.forecastify"
     compileSdk = 34
@@ -23,8 +27,8 @@ android {
         applicationId = "com.weather.forecastify"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = versionCode
+        versionName = versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -76,20 +80,61 @@ android {
         correctErrorTypes = true
     }
 
-    applicationVariants.forEach { variant ->
-        variant.outputs.forEach { output ->
-            val SEP = "_"
-            val date = Date()
-            val dateFormat = SimpleDateFormat("dd_MM_yy_hh_mm")
-            val formattedDate = dateFormat.format(date)
-            var gitBranch = getGitBranch()
-            gitBranch = gitBranch.take(gitBranch.length - 1)
-            val apkName = variant.name + SEP + output.versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
-            //    output.outputFileName = apkName
-            //fileNameToResourceName(apkName)
-        }
+    // Both of these below work
+
+    // 1st Method
+    //applicationVariants.all(ApplicationVariantAction())
+
+    // 2nd Method
+    applicationVariants.all {
+        val variant = this
+        variant.outputs
+            .map { it as BaseVariantOutputImpl }
+            .forEach { output ->
+                val SEP = "_"
+                val date = Date()
+                val dateFormat = SimpleDateFormat("dd_MM_yy_hh_mm")
+                val formattedDate = dateFormat.format(date)
+                var gitBranch = getGitBranch()
+                gitBranch = gitBranch.take(gitBranch.length - 1)
+                val apkName = variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
+                output.outputFileName = apkName
+            }
+    }
+}
+
+class ApplicationVariantAction : Action<ApplicationVariant> {
+    override fun execute(variant: ApplicationVariant) {
+        val fileName = createFileName(variant)
+        variant.outputs.all(VariantOutputAction(fileName))
     }
 
+    private fun createFileName(variant: ApplicationVariant): String {
+        val SEP = "_"
+        val date = Date()
+        val dateFormat = SimpleDateFormat("dd_MM_yy_hh_mm")
+        val formattedDate = dateFormat.format(date)
+        var gitBranch = getGitBranch()
+        gitBranch = gitBranch.take(gitBranch.length - 1)
+        val apkName = variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
+
+        return "Forecastify$SEP$apkName"
+    }
+
+    private fun getDateTimeFormat(): String {
+        val simpleDateFormat = SimpleDateFormat("yyMdHms", Locale.US)
+        return simpleDateFormat.format(Date())
+    }
+
+    class VariantOutputAction(
+        private val fileName: String
+    ) : Action<BaseVariantOutput> {
+        override fun execute(output: BaseVariantOutput) {
+            if (output is BaseVariantOutputImpl) {
+                output.outputFileName = fileName
+            }
+        }
+    }
 }
 
 fun getGitBranch(): String {
