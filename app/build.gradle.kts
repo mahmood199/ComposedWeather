@@ -188,6 +188,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.ui.test.junit4)
@@ -228,5 +229,7 @@ dependencies {
 
     implementation(libs.ycharts)
     implementation(libs.kotlinx.collections.immutable)
+
+    implementation(libs.lottie.compose)
 
 }

@@ -1,8 +1,6 @@
 package com.weather.forecastify.app.ui.feature.splash
 
-import android.os.Build.VERSION.SDK_INT
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -11,24 +9,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.ImageLoader
-import coil.compose.rememberAsyncImagePainter
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.request.ImageRequest
-import coil.size.Size
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.weather.forecastify.R
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
 import kotlinx.coroutines.delay
 
-private const val SplashWaitTime: Long = 5000
+private const val SplashWaitTime: Long = 2000
 
 @Composable
 fun SplashUI(
@@ -45,40 +39,26 @@ fun SplashUI(
         currentOnTimeout()
     }
 
-    val context = LocalContext.current
-
-    val imageLoader = remember {
-        ImageLoader.Builder(context)
-            .components {
-                if (SDK_INT >= 28) {
-                    add(ImageDecoderDecoder.Factory())
-                } else {
-                    add(GifDecoder.Factory())
-                }
-            }
-            .build()
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current)
-                    .data(data = R.drawable.weather_7108_256)
-                    .apply(block = fun ImageRequest.Builder.() {
-                        size(Size.ORIGINAL)
-                    }).build(),
-                imageLoader = imageLoader
-            ),
-            contentDescription = null,
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(
+                resId = R.raw.splash
+            )
+        )
+
+        LottieAnimation(
+            composition = composition,
+            iterations = LottieConstants.IterateForever,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f)
+                .aspectRatio(0.8f)
         )
+
     }
 }
 
