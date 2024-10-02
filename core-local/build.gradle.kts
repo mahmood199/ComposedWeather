@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core_local"
+    namespace = "com.weather.forecastify.core_local"
     compileSdk = 34
 
     defaultConfig {
