@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0-alpha08"
+agp = "8.4.2"
 accompanist-permission = "0.32.0"
 coil-compose = "2.4.0"
 kotlin = "1.9.0"
@@ -27,7 +27,7 @@ appcompat = "1.6.1"
 material = "1.10.0"
 org-jetbrains-kotlin-jvm = "1.9.0"
 slf4jSimple = "2.0.9"
-
+koin-bom = "3.5.0"
 
 
 [libraries]
@@ -81,6 +81,18 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose
 coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil-compose" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-android-compat = { module = "io.insert-koin:koin-android-compat" }
+koin-androidx-work-manager = { module = "io.insert-koin:koin-androidx-workmanager" }
+koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation" }
+koin-androidx-startup = { module = "io.insert-koin:koin-androidx-startup" }
+
+koin-test = { module = "io.insert-koin:koin-test" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -113,4 +113,17 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.accompanist.permissions)
 
+
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compat)
+    implementation(libs.koin.androidx.work.manager)
+    implementation(libs.koin.androidx.startup)
+
+
+
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
+
 }
