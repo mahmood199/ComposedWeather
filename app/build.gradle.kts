@@ -119,7 +119,11 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.android.compat)
     implementation(libs.koin.androidx.work.manager)
-    implementation(libs.koin.androidx.startup)
+    implementation(libs.koin.androidx.navigation)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.compose.viewmodel.navigation)
+//    implementation(libs.koin.androidx.startup)
 
 
 
