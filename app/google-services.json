@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "671250674035",
+    "project_id": "forecastify-1f67c",
+    "storage_bucket": "forecastify-1f67c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671250674035:android:66d4ab5d60406c243d5506",
+        "android_client_info": {
+          "package_name": "com.weather.forecastify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB65YVGfYOAtSpkLuj-hpkwAp4R0xKLpJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

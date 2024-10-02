@@ -6,5 +6,23 @@ plugins {
     alias(libs.plugins.hilt.plugin) apply false
     alias(libs.plugins.androidLibrary) apply false
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.gms.google.services) apply false
+    alias(libs.plugins.crashlytics) apply false
 }
+
+subprojects {
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        compilerOptions.freeCompilerArgs.addAll(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                    project.buildDir.absolutePath + "/compose_compiler",
+        )
+        compilerOptions.freeCompilerArgs.addAll(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                    project.buildDir.absolutePath + "/compose_compiler",
+        )
+    }
+}
+
 true // Needed to make the Suppress annotation work for the plugins block
