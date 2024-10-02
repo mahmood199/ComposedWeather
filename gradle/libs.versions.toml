@@ -27,7 +27,7 @@ appcompat = "1.6.1"
 material = "1.10.0"
 org-jetbrains-kotlin-jvm = "1.9.0"
 slf4jSimple = "2.0.9"
-koin-bom = "3.5.0"
+koin-bom = "4.0.0"
 
 
 [libraries]
