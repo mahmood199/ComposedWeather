@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.gms.google.services) apply false
     alias(libs.plugins.crashlytics) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.cocoapods) apply false
 }
 
 subprojects {

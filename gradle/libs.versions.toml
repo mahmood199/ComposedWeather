@@ -36,6 +36,8 @@ kotlinx-collections-immutable-version = "0.3.7"
 material3Android = "1.2.0"
 
 koin-bom = "4.0.0"
+kmp-plugin = "2.0.0"
+kotlin-cocoapods = "2.0.0"
 
 
 [libraries]
@@ -126,3 +128,5 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 gms-google-services = { id = "com.google.gms.google-services", version.ref = "google-services"}
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp-plugin" }
+kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin-cocoapods" }
