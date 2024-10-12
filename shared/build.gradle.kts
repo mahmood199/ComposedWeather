@@ -7,13 +7,18 @@ plugins {
 kotlin {
     androidTarget {
         compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
+            kotlin {
+                jvm("17")
             }
         }
     }
-    iosX64()
-    iosArm64()
+
+    iosX64 {
+
+    }
+    iosArm64 {
+
+    }
     iosSimulatorArm64 {
 
     }
@@ -52,7 +57,7 @@ android {
         minSdk = 26
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }

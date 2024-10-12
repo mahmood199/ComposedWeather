@@ -12,7 +12,7 @@ kotlinxCoroutinesCore = "1.9.0"
 landscapistCoil3 = "2.4.0"
 landscapist-glide = "2.4.0"
 lifecycle-runtime-ktx = "2.6.2"
-activity-compose = "1.8.0"
+activity-compose = "1.9.2"
 compose-bom = "2024.09.03"
 ktor = "2.3.2"
 ktor-gson = "1.5.0"
@@ -41,6 +41,7 @@ material3Android = "1.2.0"
 koin-bom = "4.0.0"
 kmp-plugin = "2.0.0"
 kotlin-cocoapods = "2.0.0"
+kotlin-compose = "2.0.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -49,7 +50,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
-landscapist-coil3 = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist-glide" }
+landscapist-coil3 = { group = "com.github.skydoves", name = "landscapist-coil3", version.ref = "landscapist-glide" }
 
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -97,6 +98,7 @@ kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotli
 landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "glide-version" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
+coil-compose-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil-compose" }
 coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil-compose" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -136,3 +138,4 @@ gms-google-services = { id = "com.google.gms.google-services", version.ref = "go
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp-plugin" }
 kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin-cocoapods" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-compose" }
