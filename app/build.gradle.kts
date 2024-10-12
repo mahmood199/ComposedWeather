@@ -1,16 +1,12 @@
-import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
-import org.apache.tools.ant.helper.DefaultExecutor
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.gms.google.services)
     alias(libs.plugins.crashlytics)
@@ -96,7 +92,8 @@ android {
                 val formattedDate = dateFormat.format(date)
                 var gitBranch = getGitBranch()
                 gitBranch = gitBranch.take(gitBranch.length - 1)
-                var apkName = variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
+                var apkName =
+                    variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
                 val regex = Regex("[^A-Za-z0-9_-]")
                 apkName.replace(regex, "")
                 output.outputFileName = apkName
@@ -241,7 +238,6 @@ dependencies {
     implementation(libs.koin.compose.viewmodel)
     implementation(libs.koin.compose.viewmodel.navigation)
 //    implementation(libs.koin.androidx.startup)
-
 
 
     testImplementation(libs.koin.test)

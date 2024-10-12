@@ -11,7 +11,7 @@ espresso-core = "3.5.1"
 kotlinxCoroutinesCore = "1.9.0"
 landscapistCoil3 = "2.4.0"
 landscapist-glide = "2.4.0"
-lifecycle-runtime-ktx = "2.6.2"
+lifecycle-runtime-ktx = "2.8.6"
 activity-compose = "1.9.2"
 compose-bom = "2024.09.03"
 ktor = "2.3.2"
@@ -130,7 +130,7 @@ koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-plugin = {id = "com.google.dagger.hilt.android", version.ref = "hilt-plugin"}
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }

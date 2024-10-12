@@ -15,15 +15,9 @@ kotlin {
         }
     }
 
-    iosX64 {
-
-    }
-    iosArm64 {
-
-    }
-    iosSimulatorArm64 {
-
-    }
+    iosX64 ()
+    iosArm64 ()
+    iosSimulatorArm64 ()
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -38,10 +32,21 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+//            implementation(compose.ui)
+//            implementation(compose.preview)
+
             //put your multiplatform dependencies here
             implementation(libs.kotlinx.coroutines.core)
 //            implementation(libs.landscapist.glide)
             implementation(libs.landscapist.coil3)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.lifecycle.runtime.ktx)
+            implementation(libs.activity.compose)
         }
 
         commonTest.dependencies {
@@ -62,4 +67,23 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    kotlin {
+        jvm("17")
+    }
+    buildFeatures {
+        compose = true
+    }
+}
+dependencies {
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.activity.compose)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.ui)
+    implementation(libs.ui.graphics)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.material3)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 }
