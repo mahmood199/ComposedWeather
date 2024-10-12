@@ -1,24 +1,27 @@
 [versions]
-agp = "8.4.0-alpha08"
+agp = "8.4.2"
 accompanist-permission = "0.32.0"
 coil-compose = "2.4.0"
 firebaseBom = "32.7.2"
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 core-ktx = "1.12.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-lifecycle-runtime-ktx = "2.6.2"
-activity-compose = "1.8.0"
-compose-bom = "2023.10.00"
+kotlinxCoroutinesCore = "1.9.0"
+landscapistCoil3 = "2.4.0"
+landscapist-glide = "2.4.0"
+lifecycle-runtime-ktx = "2.8.6"
+activity-compose = "1.9.2"
+compose-bom = "2024.09.03"
 ktor = "2.3.2"
 ktor-gson = "1.5.0"
 lottieCompose = "6.3.0"
 playServicesLocation = "21.0.1"
 serialization-json = "1.5.1"
-room-version = "2.6.0-rc01"
+room-version = "2.6.1"
 paging-version = "3.2.1"
-glide-version = "2.2.8"
+glide-version = "2.4.0"
 dataStore-version = "1.0.0"
 hilt-version = "2.48"
 hilt-navigation-compose = "1.0.0"
@@ -27,15 +30,18 @@ hilt-plugin = "2.48"
 navigation-compose = "2.7.4"
 appcompat = "1.6.1"
 material = "1.10.0"
-org-jetbrains-kotlin-jvm = "1.9.0"
+org-jetbrains-kotlin-jvm = "2.0.0"
 slf4jSimple = "2.0.9"
 google-services = "4.4.1"
 crashlytics = "2.9.9"
 ycharts-version = "2.1.0"
 kotlinx-collections-immutable-version = "0.3.7"
 material3Android = "1.2.0"
-
-
+koin-bom = "4.0.0"
+kmp-plugin = "2.0.0"
+kotlin-cocoapods = "2.0.0"
+kotlin-compose = "2.0.0"
+jetbrains-compose = "1.6.11"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -43,6 +49,9 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+landscapist-coil3 = { group = "com.github.skydoves", name = "landscapist-coil3", version.ref = "landscapist-glide" }
+
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -87,7 +96,9 @@ kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotli
 
 
 landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "glide-version" }
+
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
+coil-compose-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil-compose" }
 coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil-compose" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -102,11 +113,30 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
 
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-android-compat = { module = "io.insert-koin:koin-android-compat" }
+koin-androidx-work-manager = { module = "io.insert-koin:koin-androidx-workmanager" }
+koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation" }
+koin-androidx-startup = { module = "io.insert-koin:koin-androidx-startup" }
+
+koin-test = { module = "io.insert-koin:koin-test" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
+
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-plugin = {id = "com.google.dagger.hilt.android", version.ref = "hilt-plugin"}
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 gms-google-services = { id = "com.google.gms.google-services", version.ref = "google-services"}
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kmp-plugin" }
+kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin-cocoapods" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-compose" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }

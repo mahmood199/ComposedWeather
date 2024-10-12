@@ -1,20 +1,17 @@
-import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
-import org.apache.tools.ant.helper.DefaultExecutor
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.gms.google.services)
     alias(libs.plugins.crashlytics)
     id("kotlin-kapt")
+    alias(libs.plugins.kotlin.compose)
 }
 
 val versionCode = 1
@@ -59,18 +56,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -98,7 +92,8 @@ android {
                 val formattedDate = dateFormat.format(date)
                 var gitBranch = getGitBranch()
                 gitBranch = gitBranch.take(gitBranch.length - 1)
-                var apkName = variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
+                var apkName =
+                    variant.name + SEP + versionCode + SEP + gitBranch + SEP + formattedDate + ".apk"
                 val regex = Regex("[^A-Za-z0-9_-]")
                 apkName.replace(regex, "")
                 output.outputFileName = apkName
@@ -231,5 +226,21 @@ dependencies {
     implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.lottie.compose)
+
+
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compat)
+    implementation(libs.koin.androidx.work.manager)
+    implementation(libs.koin.androidx.navigation)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.compose.viewmodel.navigation)
+//    implementation(libs.koin.androidx.startup)
+
+
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
 
 }

@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        mavenCentral()
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -7,17 +8,18 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
-        mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url = uri("https://plugins.gradle.org/m2/") }
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
         mavenCentral()
+        google()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://plugins.gradle.org/m2/") }
     }
 }
 
@@ -30,3 +32,4 @@ include(":core-local")
 include(":connectivity-android")
 include(":data")
 include(":domain")
+include(":shared")
