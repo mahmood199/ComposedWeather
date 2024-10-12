@@ -14,7 +14,9 @@ kotlin {
     }
     iosX64()
     iosArm64()
-    iosSimulatorArm64()
+    iosSimulatorArm64 {
+
+    }
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -30,7 +32,11 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
+            implementation(libs.kotlinx.coroutines.core)
+//            implementation(libs.landscapist.glide)
+            implementation(libs.landscapist.coil3)
         }
+
         commonTest.dependencies {
 
         // Add this library later for testing purpose
