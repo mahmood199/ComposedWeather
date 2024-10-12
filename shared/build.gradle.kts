@@ -7,6 +7,7 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(17)
     androidTarget {
         compilations.all {
             kotlin {
@@ -47,6 +48,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.lifecycle.runtime.ktx)
             implementation(libs.activity.compose)
+            implementation(libs.androidx.appcompat)
         }
 
         commonTest.dependencies {

@@ -42,8 +42,10 @@ kmp-plugin = "2.0.0"
 kotlin-cocoapods = "2.0.0"
 kotlin-compose = "2.0.0"
 jetbrains-compose = "1.6.11"
+app-compat-version = "1.7.0"
 
 [libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "app-compat-version" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
