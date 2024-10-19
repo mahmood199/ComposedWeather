@@ -18,45 +18,64 @@ kotlin {
         }
     }
 
-    iosX64 ()
-    iosArm64 ()
-    iosSimulatorArm64 ()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        version = "1.0"
-        ios.deploymentTarget = "16.0"
-        framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }
-    
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
+            implementation(compose.animation)
             implementation(compose.material3)
 //            implementation(compose.ui)
 //            implementation(compose.preview)
 
             //put your multiplatform dependencies here
+            // Image loaders
             implementation(libs.kotlinx.coroutines.core)
 //            implementation(libs.landscapist.glide)
             implementation(libs.landscapist.coil3)
+//            implementation(libs.sketch.compose)
+//            implementation(libs.sketch.compose.resources)
+//            implementation(libs.sketch.extensions.compose.resources)
+//            implementation(libs.decompose)
+
+
+        }
+
+
+        cocoapods {
+            summary = "Some description for the Shared Module"
+            homepage = "Link to the Shared Module homepage"
+            version = "1.0"
+            ios.deploymentTarget = "16.0"
+            framework {
+                baseName = "shared"
+                isStatic = true
+
+                export("com.arkivanov.essenty:lifecycle:2.1.0")
+                export("com.arkivanov.essenty:state-keeper:2.1.0")
+                export(libs.decompose)
+            }
         }
 
         androidMain.dependencies {
             implementation(libs.lifecycle.runtime.ktx)
             implementation(libs.activity.compose)
             implementation(libs.androidx.appcompat)
+            implementation(libs.decompose)
+            implementation(libs.decompose.extensions.compose)
+        }
+
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
         }
 
         commonTest.dependencies {
 
-        // Add this library later for testing purpose
-        // implementation(libs.kotlin.test)
+            // Add this library later for testing purpose
+            // implementation(libs.kotlin.test)
         }
     }
 }

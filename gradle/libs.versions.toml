@@ -2,6 +2,7 @@
 agp = "8.4.2"
 accompanist-permission = "0.32.0"
 coil-compose = "2.4.0"
+decompose = "1.6.2"
 firebaseBom = "32.7.2"
 kotlin = "2.0.0"
 core-ktx = "1.12.0"
@@ -31,6 +32,7 @@ navigation-compose = "2.7.4"
 appcompat = "1.6.1"
 material = "1.10.0"
 org-jetbrains-kotlin-jvm = "2.0.0"
+sketch-compose = "3.3.2"
 slf4jSimple = "2.0.9"
 google-services = "4.4.1"
 crashlytics = "2.9.9"
@@ -47,6 +49,9 @@ app-compat-version = "1.7.0"
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "app-compat-version" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -59,6 +64,10 @@ activity-compose = { group = "androidx.activity", name = "activity-compose", ver
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+sketch-compose = { module = "io.github.panpf.sketch4:sketch-compose", version.ref = "sketch-compose" }
+sketch-svg = { module = "io.github.panpf.sketch4:sketch-svg", version.ref = "sketch-compose" }
+sketch-compose-resources = { module = "io.github.panpf.sketch4:sketch-compose-resources", version.ref = "sketch-compose" }
+sketch-extensions-compose-resources = { module = "io.github.panpf.sketch4:sketch-extensions-compose-resources", version.ref = "sketch-compose" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
