@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -12,6 +14,7 @@ plugins {
     alias(libs.plugins.crashlytics)
     id("kotlin-kapt")
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.detekt)
 }
 
 val versionCode = 1
@@ -166,6 +169,30 @@ fun getGitHash(): ByteArrayOutputStream {
     return stdout
 }
 
+detekt {
+    buildUponDefaultConfig = true
+    allRules = false
+    config.setFrom("$project/config/detekt.yml")
+    baseline = file("$project/config/baseline.yml")
+}
+
+tasks.withType<Detekt>().configureEach {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        txt.required.set(true)
+        sarif.required.set(true)
+        md.required.set(true)
+    }
+}
+
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = "17"
+}
+tasks.withType<DetektCreateBaselineTask>().configureEach {
+    jvmTarget = "17"
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar", "*.jar"))))
 
@@ -242,5 +269,7 @@ dependencies {
 
     testImplementation(libs.koin.test)
     testImplementation(libs.koin.test.junit4)
+
+    detektPlugins(libs.detekt.formatting)
 
 }

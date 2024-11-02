@@ -42,6 +42,8 @@ kmp-plugin = "2.0.0"
 kotlin-cocoapods = "2.0.0"
 kotlin-compose = "2.0.0"
 jetbrains-compose = "1.6.11"
+detekt = "1.23.7"
+
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -127,6 +129,9 @@ koin-androidx-startup = { module = "io.insert-koin:koin-androidx-startup" }
 koin-test = { module = "io.insert-koin:koin-test" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
 
+detekt-gradleplugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt"}
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -140,3 +145,4 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin-cocoapods" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-compose" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt"}

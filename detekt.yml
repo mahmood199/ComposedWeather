@@ -1,0 +1,13 @@
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+  weights:
+
+config:
+  config:
+    - default
+
+processors:
+  active: true
+  exclude:
+
