@@ -83,6 +83,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.location.LocationServices
 import com.weather.forecastify.app.ui.common.ContentLoaderUI
+import com.weather.forecastify.app.ui.common.CustomSideDrawerOverlay
 import com.weather.forecastify.app.ui.common.ForecastfiyAppBarUI
 import com.weather.forecastify.app.ui.common.SaveableLaunchedEffect
 import com.weather.forecastify.app.ui.theme.ForecastifyTheme
@@ -134,114 +135,143 @@ fun HomeUI(
         showNetworkConnectivity = false
     }
 
-    Scaffold(
-        topBar = {
-            ForecastfiyAppBarUI(
-                title = "Home",
-                onBackPressed = onBackPressed,
-            )
+    var isDrawerOpen by remember {
+        mutableStateOf(false)
+    }
+
+    CustomSideDrawerOverlay(
+        isDrawerOpen = isDrawerOpen,
+        onDismiss = {
+            isDrawerOpen = false
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navigateToSearch()
+        showMask = true,
+        drawerContent = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text("First option")
+                Text("First option")
+                Text("First option")
+                Text("First option")
+                Text("First option")
+                Text("First option")
+            }
+        },
+        content = {
+            Scaffold(
+                topBar = {
+                    ForecastfiyAppBarUI(
+                        title = "Home",
+                        onBackPressed = onBackPressed,
+                        onAction = {
+                            isDrawerOpen = true
+                        }
+                    )
                 },
-                shape = RoundedCornerShape(25),
-                containerColor = Color.DarkGray,
-                elevation = FloatingActionButtonDefaults.elevation(12.dp),
-                modifier = Modifier
-                    .padding(end = 8.dp, bottom = 8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Navigate to Search"
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.End,
-        snackbarHost = { SnackbarHost(snackBarHostState) },
-        bottomBar = {
-            AnimatedVisibility(
-                visible = showNetworkConnectivity,
-                enter = fadeIn() + slideInVertically(),
-                exit = fadeOut() + slideOutVertically(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color)
-                    .navigationBarsPadding()
-                    .animateContentSize()
-            ) {
-                Text(
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = {
+                            navigateToSearch()
+                        },
+                        shape = RoundedCornerShape(25),
+                        containerColor = Color.DarkGray,
+                        elevation = FloatingActionButtonDefaults.elevation(12.dp),
+                        modifier = Modifier
+                            .padding(end = 8.dp, bottom = 8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Navigate to Search"
+                        )
+                    }
+                },
+                floatingActionButtonPosition = FabPosition.End,
+                snackbarHost = { SnackbarHost(snackBarHostState) },
+                bottomBar = {
+                    AnimatedVisibility(
+                        visible = showNetworkConnectivity,
+                        enter = fadeIn() + slideInVertically(),
+                        exit = fadeOut() + slideOutVertically(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color)
+                            .navigationBarsPadding()
+                            .animateContentSize()
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateContentSize(),
+                            textAlign = TextAlign.Center,
+                            text = if (state.isConnected) "Connected" else "Offline"
+                        )
+                    }
+                }
+            ) { paddingValues ->
+
+                LaunchedEffect(state.error) {
+                    if (state.error != null) {
+                        val result = snackBarHostState.showSnackbar(
+                            message =
+                            if (state.isConnected.not())
+                                "Please connect to a stable network"
+                            else
+                                state.error ?: "Something went wrong",
+                            withDismissAction = true,
+                            duration = SnackbarDuration.Short
+                        )
+                        when (result) {
+                            SnackbarResult.ActionPerformed -> {
+                                state.error = null
+                            }
+
+                            SnackbarResult.Dismissed -> {
+                                state.error = null
+                            }
+                        }
+                    }
+                }
+
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .animateContentSize(),
-                    textAlign = TextAlign.Center,
-                    text = if (state.isConnected) "Connected" else "Offline"
-                )
-            }
-        }
-    ) { paddingValues ->
+                        .padding(
+                            start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                            end = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                            top = paddingValues.calculateTopPadding(),
+                            bottom = paddingValues.calculateBottomPadding()
+                        )
+                ) {
+                    HomeUiContent(
+                        state = state,
+                        permissionState = permission,
+                        hourlyForecasts = hourlyForecasts,
+                        dailyForecasts = dailyForecasts,
+                        todayWeather = todayWeather,
+                        modifyContent = {
+                            viewModel.modifyState(state = it)
+                        },
+                        onPermissionGranted = {
+                            val fusedLocationProviderClient =
+                                LocationServices.getFusedLocationProviderClient(context)
 
-        LaunchedEffect(state.error) {
-            if (state.error != null) {
-                val result = snackBarHostState.showSnackbar(
-                    message =
-                    if (state.isConnected.not())
-                        "Please connect to a stable network"
-                    else
-                        state.error ?: "Something went wrong",
-                    withDismissAction = true,
-                    duration = SnackbarDuration.Short
-                )
-                when (result) {
-                    SnackbarResult.ActionPerformed -> {
-                        state.error = null
-                    }
-
-                    SnackbarResult.Dismissed -> {
-                        state.error = null
-                    }
+                            fusedLocationProviderClient.lastLocation
+                                .addOnSuccessListener { location: Location? ->
+                                    location?.run {
+                                        viewModel.setLocationCoordinates(
+                                            latitude = location.latitude,
+                                            longitude = location.longitude,
+                                        )
+                                    }
+                                }.addOnFailureListener {
+                                    viewModel.handleLocationError()
+                                }
+                        },
+                    )
                 }
             }
         }
-
-        Column(
-            modifier = Modifier
-                .padding(
-                    start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                    end = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding()
-                )
-        ) {
-            HomeUiContent(
-                state = state,
-                permissionState = permission,
-                hourlyForecasts = hourlyForecasts,
-                dailyForecasts = dailyForecasts,
-                todayWeather = todayWeather,
-                modifyContent = {
-                    viewModel.modifyState(state = it)
-                },
-                onPermissionGranted = {
-                    val fusedLocationProviderClient =
-                        LocationServices.getFusedLocationProviderClient(context)
-
-                    fusedLocationProviderClient.lastLocation
-                        .addOnSuccessListener { location: Location? ->
-                            location?.run {
-                                viewModel.setLocationCoordinates(
-                                    latitude = location.latitude,
-                                    longitude = location.longitude,
-                                )
-                            }
-                        }.addOnFailureListener {
-                            viewModel.handleLocationError()
-                        }
-                },
-            )
-        }
-    }
+    )
 }
 
 @OptIn(
